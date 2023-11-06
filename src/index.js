@@ -1,12 +1,14 @@
 import express from 'express';
-import userRouter from './user/user.router';
-import restaurantRouter from './restaurant/restaurant.router';
-import productRouter from './product/product.router';
-import orderRouter from './order/order.router';
-import mongoose from 'mongoose';
+import userRouter from './user/user.router.js';
+import restaurantRouter from './restaurant/restaurant.router.js';
+import productRouter from './product/product.router.js';
+import orderRouter from './order/order.router.js';
+import DB from './db/connect.js';
+
+const db = new DB();
 
 const app = express();
-const port = 3000;
+const port = process.env.port || 3001;
 
 app.use(express.json());
 app.use('/user', userRouter);
@@ -14,16 +16,8 @@ app.use('/restaurant', restaurantRouter);
 app.use('/product', productRouter);
 app.use('/order', orderRouter);
 
-mongoose
-  .connect('mongodb+srv://cluster0.jnp7asc.mongodb.net/',{
-    dbName: 'delivery',
-    user: 'test',
-    pass:'testeo',
-  })
-  .then(()=> console.log('database connected'))
-  .catch((error) => console.log(error))
-
-  try {
+try {
+  db.connectDB();
   app.listen(port);
   console.log('server running on http://localhost:' + port);
 } catch (error) {

@@ -1,4 +1,4 @@
-import restaurantModel from './restaurant.model';
+import restaurantModel from './restaurant.model.js';
 
 export async function createRestaurant(req, res) {
   try {
@@ -30,7 +30,9 @@ export async function searchRestaurant(req, res) {
       active: true,
     };
     const documents = await restaurantModel.find(filter);
-    documents.length > 0 ? res.status(200).json(documents) : res.sendStatus(404);
+    documents.length > 0
+      ? res.status(200).json(documents)
+      : res.sendStatus(404);
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -39,10 +41,14 @@ export async function searchRestaurant(req, res) {
 export async function updateRestaurant(req, res) {
   try {
     const id = req.params._id;
-    const document = await restaurantModel.findByIdAndUpdate({ _id:id , active:true }, req.body, {
-      runValidators: true,
-      new: true,
-    });
+    const document = await restaurantModel.findByIdAndUpdate(
+      { _id: id, active: true },
+      req.body,
+      {
+        runValidators: true,
+        new: true,
+      }
+    );
     document ? res.status(200).json(document) : res.sendStatus(404);
   } catch (error) {
     res.status(400).json(error.message);
@@ -53,7 +59,7 @@ export async function deleteRestaurant(req, res) {
   try {
     const id = req.params._id;
     const document = await restaurantModel.findByIdAndUpdate(
-      { _id: id , active: true },
+      { _id: id, active: true },
       { active: false },
       { new: true }
     );

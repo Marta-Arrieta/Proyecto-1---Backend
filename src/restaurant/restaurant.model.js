@@ -3,7 +3,6 @@ import { Schema, model } from 'mongoose';
 const restaurantSchema = new Schema(
   {
     name: { type: String, required: true },
-    rating: { type: Array, required: false },
     address: { type: String, required: true },
     categories: {
       type: [String],
@@ -15,7 +14,7 @@ const restaurantSchema = new Schema(
       },
     },
     inventory: { type: Array, required: false },
-    active: Boolean,
+    active:{ type: Boolean, default: true },
   },
   {
     timestamps: true,
